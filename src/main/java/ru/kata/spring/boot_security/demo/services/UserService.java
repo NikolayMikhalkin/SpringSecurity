@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UserService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
     private UserRepository userRepository;
@@ -37,7 +38,6 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = findByUserUsername(username);
         if (user == null) {
@@ -52,7 +52,6 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority())).collect(Collectors.toList());
     }
 
-    @Transactional
     public User findByUserUsername(String username) {
         return userRepository.findUserByUsername(username);
     }
@@ -78,7 +77,6 @@ public class UserService implements UserDetailsService {
         userRepository.deleteById(userId);
     }
 
-    @Transactional
     public void update(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);

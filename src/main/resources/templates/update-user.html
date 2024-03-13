@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update user</title>
+</head>
+<body>
+<form th:method="patch" th:action="@{/admin/update-user}" th:object="${userUpd}">
+    <label for="nm">Username:</label>
+    <input id="nm" type="text" th:field="*{username}" th:value="${userUpd.getUsername()}">
+    <br>
+    <label for="lstnm">Password:</label>
+    <input id="lstnm" type="text" th:field="*{password}" th:value="${userUpd.getPassword()}">
+    <br>
+    <input type="hidden" th:field="*{id}" th:value="${userUpd.getId()}">
+    <input type="hidden" th:field="*{password}" th:value="${userUpd.getPassword()}">
+
+    <label>Select role:
+        <input type="checkbox" name="roles"
+               th:each="role : ${roles}"
+               th:value="${role.getId()}"
+               th:text="${role.getRole().replace('ROLE_', '') + ' '}"
+               th:field="*{roles}"
+        />
+    </label>
+
+    <input type="submit" value="Save">
+</form>
+<br>
+<br>
+<form th:action="@{/logout}" th:method="GET" >
+    <button type="submit">Logout</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User's list</title>
+</head>
+
+<body>
+<br>
+<div>
+    <table th:border="1">
+        <tr th:align=center>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Roles</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="user : ${users}" th:align=center>
+            <td th:text="${user.getId()}"/>
+            <td th:text="${user.getUsername()}"/>
+            <td th:text="${user.getPassword()}"/>
+            <td>
+                <a th:each="role: ${user.getRoles()}" th:text="${role.getRole()}" ></a>
+            </td>
+            <td th:align=center>
+                <a th:href="@{/admin/update-user(id=${user.getId()})}">edit</a>
+                <a th:href="@{/admin/remove-user(id=${user.getId()})}">remove</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<div>
+    <h4>for add new user click -> <a th:href="@{/admin/create-user}">add</a></h4>
+</div>
+<br/>
+<form th:action="@{/logout}" th:method="GET" >
+    <button type="submit">Logout</button>
+</form>
+</body>
+</html>
