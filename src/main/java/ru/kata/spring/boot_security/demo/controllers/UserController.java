@@ -28,6 +28,11 @@ public class UserController {
         return "index";
     }
 
+    @GetMapping("/user")
+    public String getUserPage() {
+        return "user";
+    }
+
     @GetMapping("/user-info")
     public String getUserInfo(Model model, Principal principal) {
         User user = userRepository.findUserByUsername(principal.getName());
