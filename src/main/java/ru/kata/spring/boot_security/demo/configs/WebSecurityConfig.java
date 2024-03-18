@@ -7,22 +7,18 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import ru.kata.spring.boot_security.demo.services.UserService;
+import ru.kata.spring.boot_security.demo.security.SecurityUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
-    private final UserService userService;
+    private final SecurityUserDetailsService userService;
 
     @Autowired
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserService userService) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, SecurityUserDetailsService userService) {
         this.userService = userService;
         this.successUserHandler = successUserHandler;
     }
@@ -57,20 +53,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-
-    //регистрация первоначальных пользователей
-    //username - admin, pass - admin
-    //username - user, pass - user
-    /*insert into kata.users values('1', '$2a$12$N1aahc85LpRCpgM4xPmNROjKXsPXeaKTMWnhJloUi3nhmdEsu4Cjq', 'admin');
-    insert into kata.users values('2', '$2a$12$pIoktK5UxIxlpuOD11tPzuX1TPRWZt/C5HTZOBlsTLfnSHsDhRlNK', 'user');
-    insert into kata.users values('3', '$2a$12$pIoktK5UxIxlpuOD11tPzuX1TPRWZt/C5HTZOBlsTLfnSHsDhRlNK', 'user2');
-    insert into kata.users values('4', '$2a$12$pIoktK5UxIxlpuOD11tPzuX1TPRWZt/C5HTZOBlsTLfnSHsDhRlNK', 'user3');
-
-    insert into kata.roles values('1', 'ROLE_ADMIN');
-    insert into kata.roles values('2', 'ROLE_USER');
-
-    insert into kata.users_roles values('1', '1');
-    insert into kata.users_roles values('2', '2');
-    insert into kata.users_roles values('3', '2');
-    insert into kata.users_roles values('4', '2');*/
 }

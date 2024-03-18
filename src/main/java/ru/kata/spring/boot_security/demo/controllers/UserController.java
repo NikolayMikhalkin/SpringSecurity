@@ -7,18 +7,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
-import ru.kata.spring.boot_security.demo.services.UserService;
+import ru.kata.spring.boot_security.demo.services.UserServiceImp;
 
 import java.security.Principal;
 
 @Controller
 @RequestMapping
 public class UserController {
-    private UserService userService;
-    private UserRepository userRepository;
+    private final UserServiceImp userService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserServiceImp userService, UserRepository userRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
     }
@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/user-info")
-    public String getUserInfo(Model model, Principal principal) {
+    public String getUserInfoPage(Model model, Principal principal) {
         User user = userRepository.findUserByUsername(principal.getName());
         model.addAttribute("user", user);
         return "user-info";
