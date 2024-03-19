@@ -10,22 +10,22 @@ import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 @Service
 public class SecurityUserDetailsService implements UserDetailsService {
-
     private final UserRepository userRepository;
 
     @Autowired
-    public SecurityUserDetailsService(UserRepository ur) {
-        this.userRepository = ur;
+    public SecurityUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userRepository.findUserByUsername(s);
+        SecurityUserDetails securityUserDetails = new SecurityUserDetails(user);
         if (user == null) {
             throw new UsernameNotFoundException("User not found exception");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),
-                user.getPassword(),
-                user.getAuthorities());
+        return new org.springframework.security.core.userdetails.User(securityUserDetails.getUsername(),
+                securityUserDetails.getPassword(),
+                securityUserDetails.getAuthorities());
     }
 }
